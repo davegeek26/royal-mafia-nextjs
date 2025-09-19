@@ -1,95 +1,153 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import Product from '@/components/Product';
+import { products } from '@/data/products';
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+  // Simulate loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Slideshow functionality
+  useEffect(() => {
+    const slideshowInterval = setInterval(() => {
+      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % 2);
+    }, 4000); // Change slide every 4 seconds
+
+    return () => clearInterval(slideshowInterval);
+  }, []);
+
+  const currentSlide = (n) => {
+    setCurrentSlideIndex(n - 1);
+  };
+
+  const showSlide = (index) => {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
+    
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+  };
+
+  // Update slideshow display when currentSlideIndex changes
+  useEffect(() => {
+    showSlide(currentSlideIndex);
+  }, [currentSlideIndex]);
+
+  return (
+    <div className="home">
+      <div className="homeVideoAndIntroText">
+        <video 
+          className="homeVideo"
+          src="/HomePageVid.MOV"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+        <div className="homeIntroText">
+          <Image 
+            src="/RMHomeLogo.png" 
+            alt="Royal Mafia" 
+            className="homeLogo"
+            width={900}
+            height={300}
+            priority
+          />
+          <Link href="/collection" className="homeIntroShopNowButton">
+            SHOP NOW
+          </Link>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </div>
+
+      <div className="homeRow">
+        {loading ? (
+          <div>Loading products...</div>
+        ) : (
+          products.map((product) => (
+            <Link 
+              key={product.id}
+              href={`/products/${product.id}`}
+              style={{ textDecoration: 'none', color: 'inherit'}}
+            >
+              <Product 
+                title={product.title}
+                price={product.price}
+                image={product.image}
+                backImage={product.backImage}
+              />
+            </Link>
+          ))
+        )}
+      </div>
+
+      <div className="shopNowSection">
+        <Link href="/collection" className="viewAllLink">
+          View All
+        </Link>
+      </div>
+
+      <div className="homeImagesSection">
+        <div className="homeImageLeft">
+          <div className="slideshowContainer">
+            <div className="slideshow">
+              <div className="slide active">
+                <img
+                  src="./homePageImgLeft.jpg"
+                  alt="Royal Mafia Collection"
+                />
+                <div className="slideOverlay">
+                  <h3>Classic Black Tee</h3>
+                  <Link href="/products/1" className="slideShopLink">Shop Now</Link>
+                </div>
+              </div>
+              <div className="slide">
+                <img
+                  src="./homePageImgRight.jpg"
+                  alt="Royal Mafia Collection"
+                />
+                <div className="slideOverlay">
+                  <h3>Classic White Tee</h3>
+                  <Link href="/products/2" className="slideShopLink">Shop Now</Link>
+                </div>
+              </div>
+            </div>
+            <div className="slideshowDots">
+              <span className="dot active" onClick={() => currentSlide(1)}></span>
+              <span className="dot" onClick={() => currentSlide(2)}></span>
+            </div>
+          </div>
+        </div>
+        <div className="homeImageRight">
+          <Image 
+            src="/homePageImgRight.jpg" 
+            alt="Royal Mafia" 
+            width={800}
+            height={600}
+            className="homeImage"
           />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <div className="imageOverlay">
+            <Link href="#" className="collectionLink">
+              <h3>Winter Collection 2026</h3>
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

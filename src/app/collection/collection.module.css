@@ -1,0 +1,126 @@
+/* Collection Styles */
+.collection {
+    padding: 0;
+    max-width: 100%;
+    margin: 0;
+    background: white;
+    min-height: 100vh;
+}
+
+/* Success Message Styles */
+.successMessage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.successContent {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+}
+
+.successContent h2 {
+    color: #2c3e50;
+    margin-bottom: 16px;
+    font-size: 1.8rem;
+}
+
+.successContent p {
+    color: #666;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeButton:hover {
+    color: #2c3e50;
+}
+
+/* Collection Banner */
+.collection_banner {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+}
+
+.banner_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Collection Footer Banner */
+.collection_footer_banner {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 20px;
+}
+
+.footer_banner_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.collection_row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 60px 20px;
+    background: white;
+}
+
+.no_products {
+    text-align: center;
+    padding: 40px;
+    font-family: 'Optimus Princeps', serif;
+    font-size: 18px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Mobile responsive for collection */
+@media screen and (max-width: 768px) {
+    .collection_banner {
+        height: 200px;
+    }
+    
+    .collection_row {
+        gap: 15px;
+        padding: 30px 15px;
+    }
+}

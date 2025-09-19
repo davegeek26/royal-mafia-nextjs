@@ -1,42 +1,535 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+* {
+  margin: 0;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+  margin: 0;
+  padding-top: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* Mobile responsive body padding */
+@media screen and (max-width: 768px) {
+  body {
+    padding-top: 60px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  body {
+    padding-top: 55px;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@font-face {
+  font-family: 'Optimus Princeps';
+  src: url('/OptimusPrincepsSemiBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Global Link styles to prevent conflicts */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ========================================
+   HOME PAGE STYLES
+   ======================================== */
+.home {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    max-width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    will-change: scroll-position;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.homeVideoAndIntroText {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.homeVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.homeIntroText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 2;
+    font-family: 'Optimus Princeps', serif;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.homeIntroText h1 {
+    font-size: 4rem;
+    font-weight: 300;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.homeLogo {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto 20px;
+    display: block;
+}
+
+.homeIntroText p {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+    margin-top: -10px;
+}
+
+.homeIntroShopNowButton {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-family: 'Optimus Princeps', serif;
+    font-weight: 900;
+    font-size: 23px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.homeIntroShopNowButton::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+.homeIntroShopNowButton:hover::after {
+    width: 100%;
+}
+
+.homeFancyText {
+    text-align: center;
+    width: 100;
+    margin-top: 50px;
+    font-family: 'Optimus Princeps', serif;
+    font-weight: 500;
+    color: black;
+}
+
+.homeRow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 40px 1%;
+    width: 98%;
+    margin: 0px auto;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+/* Shop Now Button Styles */
+.shopNowSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    margin: -40px 0 5px 0;
+}
+
+.shopNowButton {
+    display: inline-block;
+    padding: 18px 40px;
+    background-color: #000;
+    color: white;
+    text-decoration: none;
+    font-family: 'Optimus Princeps', serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 2px;
+    border: 2px solid #000;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.shopNowButton:hover {
+    background-color: white;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.shopNowButton:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* View All Link - Exact same style as video Shop Now button */
+.viewAllLink {
+    display: inline-block;
+    color: #000;
+    text-decoration: none;
+    font-family: 'Optimus Princeps', serif;
+    font-weight: 900;
+    font-size: 23px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.viewAllLink::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: #000;
+    transition: width 0.3s ease;
+}
+
+.viewAllLink:hover::after {
+    width: 100%;
+}
+
+/* Home Images Section */
+.homeImagesSection {
+    display: flex;
+    width: 100%;
+    gap: 2px;
+    margin-top: 20px;
+}
+
+.homeImageLeft {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.homeImageRight {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.homeImageLeft img, .homeImageRight img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+.imageOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.homeImageLeft:hover .imageOverlay, .homeImageRight:hover .imageOverlay {
+    opacity: 1;
+}
+
+.collectionLink {
+    text-decoration: none;
+    color: white;
+    text-align: center;
+}
+
+.collectionLink h3 {
+    font-family: 'Optimus Princeps', serif;
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s ease;
+}
+
+.collectionLink:hover h3 {
+    transform: scale(1.05);
+}
+
+/* ========================================
+   MOBILE RESPONSIVE DESIGN
+   ======================================== */
+@media screen and (max-width: 1200px) {
+    .homeRow {
+        gap: 20px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .homeRow {
+        gap: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .homeIntroText h1 {
+        font-size: 3rem;
+    }
+    .homeIntroText p {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+    .homeIntroShopNowButton {
+        padding: 15px 30px;
+        font-size: 14px;
+        letter-spacing: 1.5px;
+        margin-top: 15px;
+    }
+    .homeRow {
+        padding: 20px 5%;
+        gap: 20px;
+    }
+    .shopNowSection {
+        padding: 40px 20px;
+        margin: 30px 0;
+    }
+    .shopNowButton {
+        padding: 15px 30px;
+        font-size: 14px;
+        letter-spacing: 1.5px;
+    }
+    .homeImagesSection {
+        flex-direction: column;
+        gap: 1px;
+    }
+    .homeImageLeft img, .homeImageRight img {
+        height: 100vh;
+    }
+    .collectionLink h3 {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .homeIntroText h1 {
+        font-size: 2.5rem;
+    }
+    .homeIntroText p {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    .homeIntroShopNowButton {
+        padding: 12px 25px;
+        font-size: 13px;
+        letter-spacing: 1px;
+        margin-top: 12px;
+    }
+    .homeRow {
+        padding: 15px 5%;
+        gap: 15px;
+    }
+    .shopNowSection {
+        padding: 30px 15px;
+        margin: 20px 0;
+    }
+    .shopNowButton {
+        padding: 12px 25px;
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+    .homeImageLeft img, .homeImageRight img {
+        height: 100vh;
+    }
+    .collectionLink h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Slideshow Styles */
+.slideshowContainer {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slideOverlay {
+    position: absolute;
+    bottom: 60px;
+    left: 40px;
+    color: white;
+    z-index: 10;
+}
+
+.slideOverlay h3 {
+    font-family: 'Optimus Princeps', serif;
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin: 0 0 15px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.slideLink {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-family: 'Optimus Princeps', serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 20px;
+    border: 2px solid white;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.slideLink:hover {
+    background-color: white;
+    color: black;
+    transform: translateY(-2px);
+}
+
+/* Slideshow Shop Now Link - Underlined text */
+.slideShopLink {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-family: 'Optimus Princeps', serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.slideShopLink::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+.slideShopLink:hover {
+    transform: translateX(3px);
+}
+
+.slideShopLink:hover::after {
+    width: 100%;
+}
+
+.slideshowDots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background-color: white;
+    transform: scale(1.2);
+}
+
+.dot:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+
