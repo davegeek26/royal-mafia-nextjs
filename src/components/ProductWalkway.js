@@ -13,7 +13,7 @@ export default function ProductWalkway() {
   return (
     <div className={styles.walkwayContainer}>
       <div className={styles.walkwayTitle}>
-        <h2>Fall Drop 25'</h2>
+        <h2>Fall Drop 25&apos;</h2>
       </div>
       
       <div className={styles.walkwayWrapper}>

@@ -87,6 +87,22 @@ function Header() {
       </div>
       
       <div className={styles.header_nav}>
+        {/* Menu Sidebar - Commented out for now */}
+        {/* <button 
+          className={styles.header_optionBasket}
+          onClick={toggleSidebar}
+          style={{ 
+            background: 'none', 
+            border: 'none', 
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            color: 'inherit',
+            marginRight: '20px'
+          }}
+        >
+          <MenuIcon style={{ color: iconColor }} />
+        </button> */}
         <button 
           className={styles.header_optionBasket}
           onClick={toggleCartSidebar}
@@ -108,8 +124,8 @@ function Header() {
         </button>
       </div>
 
-      {/* Menu Sidebar */}
-      {sidebarOpen && (
+      {/* Menu Sidebar - Commented out for now */}
+      {/* {sidebarOpen && (
         <div className={styles.sidebar_overlay} onClick={closeSidebar}>
           <div className={styles.sidebar} onClick={(e) => e.stopPropagation()}>
             <div className={styles.sidebar_header}>
@@ -139,7 +155,7 @@ function Header() {
                   </svg>
                 </button>
                 <div className={`${styles.mission_content} ${missionExpanded ? styles.expanded : ''}`}>
-                  <p>At Royal Mafia we redefine luxury with a rebellious edge. Our mission is to empower individuals who aren't afraid to break the rules, make their own path, and live life on their terms.</p>
+                  <p>At Royal Mafia we redefine luxury with a rebellious edge. Our mission is to empower individuals who aren&apos;t afraid to break the rules, make their own path, and live life on their terms.</p>
                   <p>We create bold, high-quality apparel that celebrates power, confidence, and authenticity.</p>
                 </div>
               </div>
@@ -159,7 +175,7 @@ function Header() {
                   </svg>
                 </button>
                 <div className={`${styles.positioning_content} ${positioningExpanded ? styles.expanded : ''}`}>
-                  <p>Royal Mafia isn't just a clothing brand - it's a lifestyle for those who see themselves as kings and queens of their own world. We blend the prestige of royalty with the rebellious spirit of the mafia, crafting garments that make a statement.</p>
+                  <p>Royal Mafia isn&apos;t just a clothing brand - it&apos;s a lifestyle for those who see themselves as kings and queens of their own world. We blend the prestige of royalty with the rebellious spirit of the mafia, crafting garments that make a statement.</p>
                 </div>
               </div>
             </div>
@@ -191,7 +207,7 @@ function Header() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Cart Sidebar */}
       <CartSidebar 
