@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import styles from './success.module.css';
 
-export default function Success() {
+function SuccessContent() {
   const searchParams = useSearchParams();
   const paymentId = searchParams.get('payment_id');
   const [orderDetails, setOrderDetails] = useState(null);
@@ -158,5 +158,19 @@ export default function Success() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Success() {
+  return (
+    <Suspense fallback={
+      <div className={styles.container}>
+        <div className={styles.loading}>
+          <h2>Loading...</h2>
+        </div>
+      </div>
+    }>
+      <SuccessContent />
+    </Suspense>
   );
 }

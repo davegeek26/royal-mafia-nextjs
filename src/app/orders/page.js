@@ -1,34 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import styles from './orders.module.css';
 
-export default function Orders() {
+function OrdersContent() {
   const searchParams = useSearchParams();
   const paymentId = searchParams.get('payment_id');
   const [orderData, setOrderData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Try to get order data from various sources
-    const getOrderData = () => {
-      // First, try to get from localStorage (if user just completed order)
-      const storedOrderData = localStorage.getItem('completedOrder');
-      if (storedOrderData) {
-        const parsedData = JSON.parse(storedOrderData);
-        setOrderData(parsedData);
-        setLoading(false);
-        return;
-      }
-
-      // If no stored data, show message
-      setOrderData(null);
-      setLoading(false);
-    };
-
-    getOrderData();
+    // Orders are fetched from the database via API
+    // For now, show no orders message
+    setOrderData(null);
+    setLoading(false);
   }, [paymentId]);
 
   // Format currency
@@ -151,5 +138,19 @@ export default function Orders() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function Orders() {
+  return (
+    <Suspense fallback={
+      <div className={styles.container}>
+        <div className={styles.loading}>
+          <h2>Loading...</h2>
+        </div>
+      </div>
+    }>
+      <OrdersContent />
+    </Suspense>
   );
 }
