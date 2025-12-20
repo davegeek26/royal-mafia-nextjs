@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Product from '@/components/Product';
 import { products } from '@/data/products';
 import styles from './collection.module.css';
 
-export default function Collection() {
+function CollectionContent() {
   const searchParams = useSearchParams();
   const paymentSuccess = searchParams.get('payment_success');
   const paymentId = searchParams.get('payment_id');
@@ -16,7 +16,10 @@ export default function Collection() {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Only run on client side
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
     
     // Show success message if redirected from payment
     if (paymentSuccess && paymentId) {
@@ -87,5 +90,13 @@ export default function Collection() {
         />
       </div>
     </div>
+  );
+}
+
+export default function Collection() {
+  return (
+    <Suspense fallback={<div className={styles.collection}>Loading...</div>}>
+      <CollectionContent />
+    </Suspense>
   );
 }
