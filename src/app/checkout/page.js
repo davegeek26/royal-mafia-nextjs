@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useStateValue } from '@/context/StateProvider';
+import { useCart } from '@/context/CartContext';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { calculateShippingCost, formatShippingCost } from '@/utils/shippingUtils';
 import styles from './checkout.module.css';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const [{ basket }, dispatch] = useStateValue();
+  const { cart, loading: cartLoading, subtotal } = useCart();
   const stripe = useStripe();
   const elements = useElements();
   const [mounted, setMounted] = useState(false);
@@ -63,14 +63,9 @@ export default function CheckoutPage() {
     }
   }, []);
 
-  // Calculate subtotal
-  const getSubtotal = () => {
-    return basket.reduce((amount, item) => item.price + amount, 0);
-  };
-
   // Calculate total with shipping
   const getTotal = () => {
-    return getSubtotal() + shippingInfo.cost;
+    return subtotal + shippingInfo.cost;
   };
 
   // Format currency
@@ -84,7 +79,12 @@ export default function CheckoutPage() {
   // Update shipping cost when state changes
   useEffect(() => {
     if (shippingData.state.trim()) {
-      const shipping = calculateShippingCost(basket, shippingData.state);
+      // Format cart for shipping calculation (expects items with weight property)
+      const basketForShipping = cart.map(item => ({
+        weight: 0.5, // Default weight per item
+        quantity: item.quantity
+      }));
+      const shipping = calculateShippingCost(basketForShipping, shippingData.state);
       setShippingInfo(shipping);
     } else {
       setShippingInfo({
@@ -94,7 +94,7 @@ export default function CheckoutPage() {
         weight: 0
       });
     }
-  }, [shippingData.state, basket]);
+  }, [shippingData.state, cart]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -154,10 +154,9 @@ export default function CheckoutPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          items: basket,
           shippingInfo: shippingInfo,
           shippingData: shippingData,
-          total: getTotal(),
+          // Note: items and total are NOT sent - backend calculates from session cart
         }),
       });
 
@@ -256,11 +255,11 @@ export default function CheckoutPage() {
   };
 
   // Don't render until mounted to prevent hydration mismatch
-  if (!mounted) {
+  if (!mounted || cartLoading) {
     return <div>Loading...</div>;
   }
 
-  if (basket.length === 0) {
+  if (cart.length === 0) {
     return (
       <div className={styles.container}>
         <div className={styles.emptyCart}>
@@ -434,15 +433,15 @@ export default function CheckoutPage() {
             
             {/* Cart Items */}
             <div className={styles.items}>
-              {basket.map((item, index) => (
-                <div key={index} className={styles.item}>
-                  <img src={item.image} alt={item.title} className={styles.itemImage} />
+              {cart.map((item) => (
+                <div key={item.productId} className={styles.item}>
+                  <img src={item.imagePath} alt={item.name} className={styles.itemImage} />
                   <div className={styles.itemDetails}>
-                    <h3>{item.title}</h3>
-                    <p>Qty: {item.quantity || 1}</p>
+                    <h3>{item.name}</h3>
+                    <p>Qty: {item.quantity}</p>
                   </div>
                   <div className={styles.itemPrice}>
-                    {formatCurrency(item.price)}
+                    {formatCurrency(item.priceCents / 100)}
                   </div>
                 </div>
               ))}
@@ -452,7 +451,7 @@ export default function CheckoutPage() {
             <div className={styles.pricing}>
               <div className={styles.priceRow}>
                 <span>Subtotal:</span>
-                <span>{formatCurrency(getSubtotal())}</span>
+                <span>{formatCurrency(subtotal)}</span>
               </div>
               <div className={styles.priceRow}>
                 <span>Shipping ({shippingInfo.zone || 'Select State'}):</span>

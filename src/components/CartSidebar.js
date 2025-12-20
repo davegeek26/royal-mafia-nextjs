@@ -1,25 +1,22 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useStateValue } from '@/context/StateProvider';
+import { useCart } from '@/context/CartContext';
 import styles from './CartSidebar.module.css';
 
 function CartSidebar({ isOpen, onClose }) {
   const router = useRouter();
-  const [{ basket }, dispatch] = useStateValue();
+  const { cart, loading, addToCart, subtotal, totalItems, refreshCart } = useCart();
 
-  // Calculate total items
-  const getTotalItems = () => {
-    return basket.reduce((total, item) => total + 1, 0);
-  };
-
-  // Calculate subtotal
-  const getSubtotal = () => {
-    return basket.reduce((amount, item) => item.price + amount, 0);
-  };
+  // Refresh cart when sidebar opens
+  useEffect(() => {
+    if (isOpen) {
+      refreshCart();
+    }
+  }, [isOpen, refreshCart]);
 
   // Format currency using modern Intl API
   const formatCurrency = (amount) => {
@@ -29,12 +26,13 @@ function CartSidebar({ isOpen, onClose }) {
     }).format(amount);
   };
 
-  // Remove item from cart
-  const removeFromCart = (id) => {
-    dispatch({
-      type: 'REMOVE_FROM_CART',
-      id: id,
-    });
+  const handleQuantityChange = async (productId, quantityDelta) => {
+    try {
+      await addToCart(productId, quantityDelta);
+    } catch (error) {
+      console.error('Failed to update quantity:', error);
+      alert('Failed to update quantity. Please try again.');
+    }
   };
 
 
@@ -57,7 +55,11 @@ function CartSidebar({ isOpen, onClose }) {
             </div>
             
             <div className={styles.cartSidebarContent}>
-              {basket.length === 0 ? (
+              {loading ? (
+                <div className={styles.emptyCart}>
+                  <p>Loading cart...</p>
+                </div>
+              ) : cart.length === 0 ? (
                 <div className={styles.emptyCart}>
                   <p>Your cart is empty</p>
                   <div className={styles.continueShoppingContainer}>
@@ -73,30 +75,42 @@ function CartSidebar({ isOpen, onClose }) {
               ) : (
                 <>
                   <div className={styles.cartItems}>
-                                         {basket.map((item, index) => (
-                       <div key={`${item.id}-${index}`} className={styles.cartItem}>
+                    {cart.map((item) => (
+                      <div key={item.productId} className={styles.cartItem}>
                         <div className={styles.cartItemImage}>
                           <Image
-                            src={item.image}
-                            alt={item.title}
+                            src={item.imagePath}
+                            alt={item.name}
                             width={80}
                             height={80}
-                            objectFit="cover"
+                            style={{ objectFit: 'cover' }}
                           />
                         </div>
-                          <div className={styles.cartItemInfo}>
-                           <p className={styles.cartItemTitle}>{item.title}</p>
-                           {item.size && <p className={styles.cartItemSize}>Size: {item.size}</p>}
-                           <div className={styles.cartItemRight}>
-                             <p className={styles.cartItemPrice}>{formatCurrency(item.price)}</p>
-                             <button 
-                               className={styles.removeButton}
-                               onClick={() => removeFromCart(item.id)}
-                             >
-                               Remove
-                             </button>
-                           </div>
-                         </div>
+                        <div className={styles.cartItemInfo}>
+                          <p className={styles.cartItemTitle}>{item.name}</p>
+                          <div className={styles.cartItemRight}>
+                            <p className={styles.cartItemPrice}>
+                              {formatCurrency(item.priceCents / 100)}
+                            </p>
+                            <div className={styles.quantityControl}>
+                              <button 
+                                className={styles.quantityButton}
+                                onClick={() => handleQuantityChange(item.productId, -1)}
+                                aria-label="Decrease quantity"
+                              >
+                                −
+                              </button>
+                              <span className={styles.quantityValue}>{item.quantity}</span>
+                              <button 
+                                className={styles.quantityButton}
+                                onClick={() => handleQuantityChange(item.productId, 1)}
+                                aria-label="Increase quantity"
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -105,7 +119,7 @@ function CartSidebar({ isOpen, onClose }) {
                     <h4>Order Summary</h4>
                     <div className={styles.summaryRow}>
                       <span>Subtotal:</span>
-                      <span>{formatCurrency(getSubtotal())}</span>
+                      <span>{formatCurrency(subtotal)}</span>
                     </div>
                     <div className={styles.taxesShippingMessage}>
                       Taxes and shipping calculated at checkout

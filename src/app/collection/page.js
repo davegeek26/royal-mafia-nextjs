@@ -37,7 +37,7 @@ export default function Collection() {
       {showSuccessMessage && (
         <div className={styles.successMessage}>
           <div className={styles.successContent}>
-            <h2>🎉 Payment Successful!</h2>
+            <h2>Payment Successful!</h2>
             <p>Thank you for your order! Payment ID: {paymentId}</p>
             <p>You will receive a confirmation email shortly.</p>
             <button 

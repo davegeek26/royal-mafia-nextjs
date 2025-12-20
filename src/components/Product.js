@@ -1,11 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './Product.module.css';
 
 export default function Product({ title, price, image, backImage }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <div 
@@ -19,6 +31,7 @@ export default function Product({ title, price, image, backImage }) {
           alt={title}
           width={320}
           height={320}
+          loading = "lazy"
           className={styles.mainImage}
           priority={false}
         />
@@ -36,7 +49,15 @@ export default function Product({ title, price, image, backImage }) {
       <div className={styles.productInfo}>
         <p>{title}</p>
         <div className={styles.priceOrShopNow}>
-          {isHovered ? (
+          {isMobile ? (
+            <>
+              <p className={styles.productPrice}>
+                <strong>$</strong>
+                <strong>{price}</strong>
+              </p>
+              <span className={styles.shopNowText}>SHOP NOW</span>
+            </>
+          ) : isHovered ? (
             <span className={styles.shopNowText}>SHOP NOW</span>
           ) : (
             <p className={styles.productPrice}>

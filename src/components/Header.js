@@ -4,8 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useStateValue } from '@/context/StateProvider';
-import { clearCartFromStorage } from '@/context/reducer';
+import { useCart } from '@/context/CartContext';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -27,7 +26,7 @@ function Header() {
   const isOrdersPage = pathname.includes('/orders');
   
   const iconColor = '#ffffff';
-  const [{ basket }, dispatch] = useStateValue();
+  const { totalItems, loading: cartLoading } = useCart();
   const [mounted, setMounted] = useState(false);
   
   // Choose logo based on current page
@@ -38,19 +37,8 @@ function Header() {
     setMounted(true);
   }, []);
 
-
-  
-  // Ensure basket count is always a number to prevent hydration issues
-  const basketCount = mounted ? (basket?.length || 0) : 0;
-  
-  // Log basket changes for debugging
-  useEffect(() => {
-    if (mounted && basket) {
-      console.log('🛒 Header: Basket updated!');
-      console.log('📊 Basket count:', basket.length);
-      console.log('📦 Basket items:', basket);
-    }
-  }, [basket, mounted]);
+  // Only show count when loaded to prevent flash of 0
+  const basketCount = mounted && !cartLoading ? totalItems : null;
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -96,9 +84,6 @@ function Header() {
         <Link href="/collection" className={styles.nav_link}>
           Collection
         </Link>
-        <Link href="/about" className={styles.nav_link}>
-          About
-        </Link>
       </div>
       
       <div className={styles.header_nav}>
@@ -115,9 +100,11 @@ function Header() {
           }}
         >
           <ShoppingBagIcon style={{ color: iconColor }} />
-          <span className={styles.header_optionLineTwo} style={{ color: iconColor }}>
-            {basketCount}
-          </span>
+          {basketCount !== null && (
+            <span className={styles.header_optionLineTwo} style={{ color: iconColor }}>
+              {basketCount}
+            </span>
+          )}
         </button>
       </div>
 

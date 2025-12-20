@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-**Currently, my frontend uses placeholders so every image used is not what will be used for production only used in development. The overall idea is to have a default image of a shirt, then hovering over it will transition to a back image of a model wearing that same shirt so it adds a cool dynamic to the overall aesthetic of the brand. what you see here is my overall vision for how I want the website to look, but with professional pictures instead of the placeholders.**
+**Currently, my frontend uses placeholders so every image used is not what will be used for production only used in development. The overall idea is to have a default image of a shirt, then hovering over it will transition to a back image of a model wearing that same shirt so it adds a cool dynamic to the overall aesthetic of the brand. what you see here is my overall vision for how I want the website to look, but with professional pictures instead of the placeholders. Also, signature verification for my webhook is needed for production. All API routes necessary are implemented and only minor details are missing like images, minor design tweaks, privacy policies, etc.**
 First, run the development server:
 
 ```bash

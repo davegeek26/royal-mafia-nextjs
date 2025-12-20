@@ -4,19 +4,11 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Product from '@/components/Product';
+import ProductWalkway from '@/components/ProductWalkway';
 import { products } from '@/data/products';
 
 export default function Home() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  // Simulate loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Slideshow functionality
   useEffect(() => {
@@ -55,6 +47,7 @@ export default function Home() {
         <video 
           className="homeVideo"
           src="/HomePageVid.MOV"
+          loading= "lazy"
           autoPlay
           loop
           muted
@@ -76,12 +69,9 @@ export default function Home() {
       </div>
 
       <div className="homeRow">
-        {loading ? (
-          <div>Loading products...</div>
-        ) : (
-          products.map((product) => (
+        {products.map((product) => (
+          <div key={product.id}>
             <Link 
-              key={product.id}
               href={`/products/${product.id}`}
               style={{ textDecoration: 'none', color: 'inherit'}}
             >
@@ -92,8 +82,8 @@ export default function Home() {
                 backImage={product.backImage}
               />
             </Link>
-          ))
-        )}
+          </div>
+        ))}
       </div>
 
       <div className="shopNowSection">
@@ -101,6 +91,9 @@ export default function Home() {
           View All
         </Link>
       </div>
+
+      {/* Product Walkway Section */}
+      <ProductWalkway />
 
       <div className="homeImagesSection">
         <div className="homeImageLeft">
@@ -134,17 +127,22 @@ export default function Home() {
           </div>
         </div>
         <div className="homeImageRight">
-          <Image 
-            src="/homePageImgRight.jpg" 
-            alt="Royal Mafia" 
-            width={800}
-            height={600}
-            className="homeImage"
-          />
-          <div className="imageOverlay">
-            <Link href="#" className="collectionLink">
-              <h3>Winter Collection 2026</h3>
-            </Link>
+          <div className="homeProductsRight">
+            {products.slice(0, 2).map((product) => (
+              <div key={product.id} className="homeProductRightItem">
+                <Link 
+                  href={`/products/${product.id}`}
+                  style={{ textDecoration: 'none', color: 'inherit'}}
+                >
+                  <Product 
+                    title={product.title}
+                    price={product.price}
+                    image={product.image}
+                    backImage={product.backImage}
+                  />
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </div>

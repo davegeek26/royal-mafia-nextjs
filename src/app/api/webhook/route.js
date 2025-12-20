@@ -6,8 +6,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 // const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(request) {
+  console.log('WEBHOOK ENDPOINT HIT');
   try { 
     const body = await request.text();
+    console.log('Webhook body received, length:', body.length);
     // const headersList = await headers();  THIS HAS TO BE UNCOMMENTED FOR PRODUCTION. 
     // const signature = headersList.get('stripe-signature');
 
@@ -32,6 +34,8 @@ export async function POST(request) {
       );
     }
 
+    console.log('Event type received:', event.type);
+    
     // Handle the payment_intent.succeeded event
     if (event.type === 'payment_intent.succeeded') {
       const paymentIntent = event.data.object;
@@ -43,25 +47,39 @@ export async function POST(request) {
       console.log('Metadata:', paymentIntent.metadata);
       
       // Extract order data from payment intent metadata
+      // Ensure required fields are not empty (schema requires NOT NULL)
+      const metadata = paymentIntent.metadata;
+      
       const orderData = {
         payment_intent_id: paymentIntent.id,
-        customer_email: paymentIntent.metadata.customer_email || null,
-        customer_first_name: paymentIntent.metadata.customer_first_name || '',
-        customer_last_name: paymentIntent.metadata.customer_last_name || '',
-        shipping_address: paymentIntent.metadata.shipping_address || '',
-        shipping_apartment: paymentIntent.metadata.shipping_apartment || null,
-        shipping_city: paymentIntent.metadata.shipping_city || '',
-        shipping_state: paymentIntent.metadata.shipping_state || '',
-        shipping_zip: paymentIntent.metadata.shipping_zip || '',
-        shipping_phone: paymentIntent.metadata.shipping_phone || null,
-        items: paymentIntent.metadata.items ? JSON.parse(paymentIntent.metadata.items) : [],
-        subtotal: parseFloat(paymentIntent.metadata.subtotal) || 0,
-        shipping_cost: parseFloat(paymentIntent.metadata.shipping_cost) || 0,
-        total: paymentIntent.amount / 100, // Convert from cents
-        created_at: new Date().toISOString(),
+        customer_email: metadata.customer_email || null,
+        customer_first_name: metadata.customer_first_name || 'N/A',
+        customer_last_name: metadata.customer_last_name || 'N/A',
+        shipping_address: metadata.shipping_address || 'N/A',
+        shipping_apartment: metadata.shipping_apartment || null,
+        shipping_city: metadata.shipping_city || 'N/A',
+        shipping_state: metadata.shipping_state || 'N/A',
+        shipping_zip: metadata.shipping_zip || 'N/A',
+        shipping_phone: metadata.shipping_phone || null,
+        items: metadata.items ? JSON.parse(metadata.items) : [],
+        subtotal: parseFloat(metadata.subtotal) || 0,
+        shipping_cost: parseFloat(metadata.shipping_cost) || 0,
+        total: parseFloat((paymentIntent.amount / 100).toFixed(2)), // Convert from cents, ensure 2 decimals
+        // created_at will use default NOW() from database
       };
+      
+      // Validate required fields before inserting
+      if (!orderData.customer_first_name || !orderData.customer_last_name || 
+          !orderData.shipping_address || !orderData.shipping_city || 
+          !orderData.shipping_state || !orderData.shipping_zip) {
+        console.error('Missing required fields in order data:', orderData);
+        return NextResponse.json(
+          { error: 'Missing required order fields' },
+          { status: 400 }
+        );
+      }
 
-      console.log('Creating order with data:', orderData);
+      console.log('Creating order with data:', JSON.stringify(orderData, null, 2));
       
       // CREATE NEW ORDER IN DATABASE
       const { data, error } = await supabase
@@ -72,14 +90,41 @@ export async function POST(request) {
 
       if (error) {
         console.error('Failed to create order in database:', error);
+        console.error('Error details:', JSON.stringify(error, null, 2));
+        // Don't return error - let webhook succeed so Stripe doesn't retry
+        // But log it so we can debug
       } else {
         console.log('Order created successfully:', data);
+        
+        // Clear cart from database after successful order
+        // Extract session_id from metadata if available
+        const sessionId = paymentIntent.metadata.session_id;
+        console.log('Session ID from metadata:', sessionId);
+        
+        if (sessionId) {
+          const { error: cartError, data: cartData } = await supabase
+            .from('cart_items')
+            .delete()
+            .eq('session_id', sessionId)
+            .select();
+          
+          if (cartError) {
+            console.error('Error clearing cart after order:', cartError);
+            // Don't fail the webhook if cart clearing fails
+          } else {
+            console.log('Cart cleared successfully. Deleted items:', cartData?.length || 0);
+          }
+        } else {
+          console.warn('No session_id in payment intent metadata - cannot clear cart');
+        }
       }
       
       console.log('=== WEBHOOK PROCESSING COMPLETE ===');
       
       
       // You could also send confirmation emails, update inventory, etc.
+    } else {
+      console.log('Event type not handled:', event.type);
     }
 
     return NextResponse.json({ received: true });

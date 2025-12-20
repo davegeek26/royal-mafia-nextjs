@@ -1,5 +1,6 @@
 import "./globals.css";
 import { StateProvider } from "@/context/StateProvider";
+import { CartProvider } from "@/context/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StripeProvider from "@/components/StripeProvider";
@@ -14,11 +15,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <StateProvider>
-          <StripeProvider>
-            <Header />
-            {children}
-            <Footer />
-          </StripeProvider>
+          <CartProvider>
+            <StripeProvider>
+              <Header />
+              {children}
+              <Footer />
+            </StripeProvider>
+          </CartProvider>
         </StateProvider>
       </body>
     </html>

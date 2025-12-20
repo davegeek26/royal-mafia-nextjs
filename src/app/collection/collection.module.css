@@ -113,14 +113,20 @@
     font-style: italic;
 }
 
-/* Mobile responsive for collection */
+/* Mobile responsive for collection - 2-column grid */
 @media screen and (max-width: 768px) {
     .collection_banner {
         height: 200px;
     }
     
     .collection_row {
-        gap: 15px;
-        padding: 30px 15px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 20px 10px;
+    }
+    
+    .collection_row > a {
+        width: 100%;
     }
 }

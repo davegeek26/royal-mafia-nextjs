@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import { useStateValue } from '@/context/StateProvider';
+import { useCart } from '@/context/CartContext';
 import { products } from '@/data/products';
 import styles from './Product.module.css';
 
 export default function ProductPage() {
   const [selectedSize, setSelectedSize] = useState(null);
+  const [adding, setAdding] = useState(false);
   
   const params = useParams();
   const productId = params.id;
@@ -19,32 +20,22 @@ export default function ProductPage() {
   // Default sizes - simplified approach
   const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
-  const [{ basket }, dispatch] = useStateValue();
+  const { addToCart } = useCart();
   
-  const addToCart = () => {
-    if (!selectedSize) return;
+  const handleAddToCart = async () => {
+    if (!selectedSize || !product) return;
 
-    // Dispatch item into the data layer
-    dispatch({ 
-      type: 'ADD_TO_CART',
-      item: {
-        id: product.id, 
-        title: product.title,
-        image: product.image,
-        price: product.price,
-        size: selectedSize
-      },
-    });
-    
-    // Log the updated basket after adding item
-    console.log('🛒 Item added to cart!');
-    console.log('📦 Current basket contents:', basket);
-    console.log('➕ New item added:', {
-      id: product.id, 
-      title: product.title,
-      price: product.price,
-      size: selectedSize
-    });
+    try {
+      setAdding(true);
+      await addToCart(product.id, 1);
+      console.log('Item added to cart!');
+      // Optionally show success message or reset size selection
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+      alert('Failed to add item to cart. Please try again.');
+    } finally {
+      setAdding(false);
+    }
   };
   
   useEffect(() => {
@@ -98,10 +89,10 @@ export default function ProductPage() {
             
             <button 
               className={styles.addToCartButton}
-              onClick={addToCart}
-              disabled={!selectedSize}
+              onClick={handleAddToCart}
+              disabled={!selectedSize || adding}
             > 
-              {!selectedSize ? 'SELECT SIZE' : 'ADD TO CART'}
+              {!selectedSize ? 'SELECT SIZE' : adding ? 'ADDING...' : 'ADD TO CART'}
             </button>
         </div>
     </div>
