@@ -84,7 +84,7 @@ function CollectionContent() {
 
       <div className={styles.collection_footer_banner}>
         <img 
-          src="/productImage.jpg" 
+          src="/productImage.JPG" 
           alt="Collection Footer Banner" 
           className={styles.footer_banner_image}
         />

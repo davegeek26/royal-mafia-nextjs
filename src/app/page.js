@@ -101,7 +101,7 @@ export default function Home() {
             <div className="slideshow">
               <div className="slide active">
                 <img
-                  src="./homePageImgLeft.jpg"
+                  src="/homePageImgLeft.JPG"
                   alt="Royal Mafia Collection"
                 />
                 <div className="slideOverlay">
@@ -111,7 +111,7 @@ export default function Home() {
               </div>
               <div className="slide">
                 <img
-                  src="./homePageImgRight.jpg"
+                  src="/homePageImgRight.JPG"
                   alt="Royal Mafia Collection"
                 />
                 <div className="slideOverlay">
