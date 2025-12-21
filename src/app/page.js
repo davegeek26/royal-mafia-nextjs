@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Product from '@/components/Product';
-import ProductWalkway from '@/components/ProductWalkway';
 import { products } from '@/data/products';
 
 export default function Home() {
@@ -59,9 +58,6 @@ export default function Home() {
           View All
         </Link>
       </div>
-
-      {/* Product Walkway Section */}
-      <ProductWalkway />
 
       <div className="homeImagesSection">
         <div className="homeImageLeft">
