@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Product from '@/components/Product';
@@ -8,6 +8,40 @@ import ProductWalkway from '@/components/ProductWalkway';
 import { products } from '@/data/products';
 
 export default function Home() {
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  const slides = [
+    {
+      image: '/homePageImgLeft.JPG',
+      title: 'Classic Black Tee',
+      link: '/products/1'
+    },
+    {
+      image: '/homePageImgRight.JPG',
+      title: 'Royal Mafia Collection',
+      link: '/collection'
+    }
+  ];
+
+  const showSlide = (index) => {
+    setCurrentSlideIndex(index);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlideIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
+    }, 5000); // Auto-advance every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [slides.length]);
 
   return (
     <div className="home">
@@ -66,23 +100,45 @@ export default function Home() {
       <div className="homeImagesSection">
         <div className="homeImageLeft">
           <div className="slideshowContainer">
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-              <Image
-                src="/homePageImgLeft.JPG"
-                alt="Royal Mafia Collection"
-                width={1920}
-                height={1080}
-                priority={false}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover'
-                }}
-              />
+            <div className="slideshow">
+              {slides.map((slide, index) => (
+                <div
+                  key={index}
+                  className={`slide ${index === currentSlideIndex ? 'active' : ''}`}
+                >
+                  <Image
+                    src={slide.image}
+                    alt={slide.title}
+                    width={1920}
+                    height={1080}
+                    priority={index === 0}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                  <div className="slideOverlay">
+                    <h3>{slide.title}</h3>
+                    <Link href={slide.link} className="slideShopLink">Shop Now</Link>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="slideOverlay">
-              <h3>Classic Black Tee</h3>
-              <Link href="/products/1" className="slideShopLink">Shop Now</Link>
+            <button className="slideshowButton slideshowButtonPrev" onClick={prevSlide} aria-label="Previous slide">
+              ‹
+            </button>
+            <button className="slideshowButton slideshowButtonNext" onClick={nextSlide} aria-label="Next slide">
+              ›
+            </button>
+            <div className="slideshowDots">
+              {slides.map((_, index) => (
+                <span
+                  key={index}
+                  className={`dot ${index === currentSlideIndex ? 'active' : ''}`}
+                  onClick={() => showSlide(index)}
+                />
+              ))}
             </div>
           </div>
         </div>
