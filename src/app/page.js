@@ -44,13 +44,14 @@ export default function Home() {
   return (
     <div className="home">
       <div className="homeVideoAndIntroText">
-        <div
+        <video 
           className="homeVideo"
-          style={{
-          backgroundColor: '#000',
-          height: '100%',
-          width: '100%',
-          }}
+          src="/HomePageVid.MOV"
+          loading= "lazy"
+          autoPlay
+          loop
+          muted
+          playsInline
         />
         <div className="homeIntroText">
           <Image 
