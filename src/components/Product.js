@@ -22,8 +22,9 @@ export default function Product({ title, price, image, backImage }) {
   return (
     <div 
       className={styles.product}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
+      onTouchStart={() => setIsHovered(false)}
     >
       <div className={styles.productImageWrapper}>
         <Image

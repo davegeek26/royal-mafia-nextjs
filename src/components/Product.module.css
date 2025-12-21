@@ -62,16 +62,26 @@
 /* On touch devices, always show main image and hide hover image */
 @media (hover: none) and (pointer: coarse) {
     .hoverImage {
-        display: none;
+        display: none !important;
     }
     
     .mainImage {
         position: static;
-        opacity: 1;
+        opacity: 1 !important;
     }
     
     .productImageWrapper {
         position: static;
+    }
+    
+    /* Prevent any hover effects on touch devices */
+    .productImageWrapper:hover .mainImage {
+        opacity: 1 !important;
+    }
+    
+    .productImageWrapper:hover .hoverImage {
+        opacity: 0 !important;
+        display: none !important;
     }
 }
 
@@ -149,6 +159,29 @@
         max-width: 100%;
         height: auto;
         margin: 0;
+        background: transparent !important;
+    }
+    
+    /* Prevent hover effects on mobile - no image swapping */
+    .productImageWrapper:hover .mainImage {
+        opacity: 1 !important;
+    }
+    
+    .productImageWrapper:hover .hoverImage {
+        opacity: 0 !important;
+        display: none !important;
+    }
+    
+    /* Very subtle touch/active effect on mobile */
+    .product:active {
+        transform: scale(1.02);
+        transition: transform 0.15s ease;
+    }
+    
+    /* Ensure no white background appears */
+    .product:hover {
+        background: transparent !important;
+        box-shadow: none !important;
     }
     
     .productImageWrapper {
