@@ -43,7 +43,7 @@ export default function Home() {
 
   return (
     <div className="home">
-      <div className="homeVideoAndIntroText">
+      {/* <div className="homeVideoAndIntroText">
         <video 
           className="homeVideo"
           src="/HomePageVid.MOV"
@@ -52,6 +52,13 @@ export default function Home() {
           loop
           muted
           playsInline
+        /> */}
+        <div className="homeVideo"
+        style={{
+        backgroundColor: '#000',
+        height: '100%',
+        width: '100%',
+        }}
         />
         <div className="homeIntroText">
           <Image 
