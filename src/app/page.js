@@ -59,7 +59,7 @@ export default function Home() {
         height: '100%',
         width: '100%',
         }}
-        />
+        ></div>
         <div className="homeIntroText">
           <Image 
             src="/RMHomeLogo.png" 
