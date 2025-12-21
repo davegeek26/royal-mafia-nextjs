@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Product from '@/components/Product';
@@ -8,38 +8,6 @@ import ProductWalkway from '@/components/ProductWalkway';
 import { products } from '@/data/products';
 
 export default function Home() {
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-
-  // Slideshow functionality
-  useEffect(() => {
-    const slideshowInterval = setInterval(() => {
-      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % 2);
-    }, 4000); // Change slide every 4 seconds
-
-    return () => clearInterval(slideshowInterval);
-  }, []);
-
-  const currentSlide = (n) => {
-    setCurrentSlideIndex(n - 1);
-  };
-
-  const showSlide = (index) => {
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.dot');
-    
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
-    });
-    
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === index);
-    });
-  };
-
-  // Update slideshow display when currentSlideIndex changes
-  useEffect(() => {
-    showSlide(currentSlideIndex);
-  }, [currentSlideIndex]);
 
   return (
     <div className="home">
@@ -98,31 +66,23 @@ export default function Home() {
       <div className="homeImagesSection">
         <div className="homeImageLeft">
           <div className="slideshowContainer">
-            <div className="slideshow">
-              <div className="slide active">
-                <img
-                  src="/homePageImgLeft.JPG"
-                  alt="Royal Mafia Collection"
-                />
-                <div className="slideOverlay">
-                  <h3>Classic Black Tee</h3>
-                  <Link href="/products/1" className="slideShopLink">Shop Now</Link>
-                </div>
-              </div>
-              <div className="slide">
-                <img
-                  src="/homePageImgRight.JPG"
-                  alt="Royal Mafia Collection"
-                />
-                <div className="slideOverlay">
-                  <h3>Classic White Tee</h3>
-                  <Link href="/products/2" className="slideShopLink">Shop Now</Link>
-                </div>
-              </div>
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+              <Image
+                src="/homePageImgLeft.JPG"
+                alt="Royal Mafia Collection"
+                width={1920}
+                height={1080}
+                priority={false}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
             </div>
-            <div className="slideshowDots">
-              <span className="dot active" onClick={() => currentSlide(1)}></span>
-              <span className="dot" onClick={() => currentSlide(2)}></span>
+            <div className="slideOverlay">
+              <h3>Classic Black Tee</h3>
+              <Link href="/products/1" className="slideShopLink">Shop Now</Link>
             </div>
           </div>
         </div>
