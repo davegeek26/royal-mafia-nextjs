@@ -43,23 +43,15 @@ export default function Home() {
 
   return (
     <div className="home">
-      {/* <div className="homeVideoAndIntroText">
-        <video 
+      <div className="homeVideoAndIntroText">
+        <div
           className="homeVideo"
-          src="/HomePageVid.MOV"
-          loading= "lazy"
-          autoPlay
-          loop
-          muted
-          playsInline
-        /> */}
-        <div className="homeVideo"
-        style={{
-        backgroundColor: '#000',
-        height: '100%',
-        width: '100%',
-        }}
-        ></div>
+          style={{
+          backgroundColor: '#000',
+          height: '100%',
+          width: '100%',
+          }}
+        />
         <div className="homeIntroText">
           <Image 
             src="/RMHomeLogo.png" 
