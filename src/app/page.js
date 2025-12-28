@@ -125,12 +125,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <button className="slideshowButton slideshowButtonPrev" onClick={prevSlide} aria-label="Previous slide">
-              ‹
-            </button>
-            <button className="slideshowButton slideshowButtonNext" onClick={nextSlide} aria-label="Next slide">
-              ›
-            </button>
             <div className="slideshowDots">
               {slides.map((_, index) => (
                 <span

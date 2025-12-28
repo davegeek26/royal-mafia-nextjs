@@ -24,13 +24,11 @@ export async function GET() {
     }
     
     // Fetch cart items from Supabase
-    console.log('🔍 Fetching cart for session_id:', sessionId);
     const { data: cartItems, error } = await supabase
       .from('cart_items')
       .select('*')
       .eq('session_id', sessionId);
     
-    console.log('📦 Cart items found:', cartItems?.length || 0, cartItems);
     
     if (error) {
       console.error('Error fetching cart:', error);

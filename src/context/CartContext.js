@@ -5,9 +5,9 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [cart, setCart] = useState([]); //react re-renders when state changes
+  const [loading, setLoading] = useState(true); //same here 
+  const [error, setError] = useState(null); // same here 
 
   // Fetch cart from API
   const fetchCart = useCallback(async () => {
@@ -136,7 +136,7 @@ export function CartProvider({ children }) {
     fetchCart();
   }, [fetchCart]);
 
-  const value = {
+  const value = { //values so that components outside the provider can change the cart 
     cart,
     loading,
     error,
@@ -148,7 +148,7 @@ export function CartProvider({ children }) {
     refreshCart: fetchCart,
   };
 
-  return (
+  return ( //this allows us to wrap our app in the provider so all components can access the cart context
     <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>

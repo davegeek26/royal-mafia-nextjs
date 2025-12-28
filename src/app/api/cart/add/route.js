@@ -50,12 +50,9 @@ export async function POST(request) {
     // If no session ID, create one
     if (!sessionId) {
       sessionId = generateSessionId();
-      console.log('🆕 Created new session_id:', sessionId);
     } else {
-      console.log('✅ Using existing session_id:', sessionId);
+      console.log('Using existing session_id:', sessionId);
     }
-    
-    console.log('🛒 Adding product:', productId, 'quantityDelta:', quantityDelta, 'to session:', sessionId);
     
     // Get current cart item
     const { data: existingItem, error: fetchError } = await supabase
