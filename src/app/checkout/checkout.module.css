@@ -1,13 +1,13 @@
 .container {
   min-height: 100vh;
-  background: white;
+  background: #ffffff;
   padding: 2rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .checkoutCard {
-  background: white;
+  background: #ffffff;
   padding: 0;
   width: 100%;
   margin: 0;
@@ -15,10 +15,13 @@
 
 .checkoutCard h1 {
   text-align: center;
-  color: #333;
+  color: #000000;
   margin-bottom: 2rem;
   font-size: 2rem;
   font-weight: 600;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
 }
 
 .checkoutContent {
@@ -29,16 +32,19 @@
 
 /* Shipping Section */
 .shippingSection {
-  background: white;
+  background: #ffffff;
   padding: 0;
   border: none;
 }
 
 .shippingSection h2 {
-  color: #333;
+  color: #888888;
   margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 11px;
   font-weight: 600;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 5px;
+  text-transform: uppercase;
 }
 
 .shippingForm {
@@ -69,23 +75,31 @@
 
 .formGroup label {
   font-weight: 500;
-  color: #555;
+  color: #888888;
   margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .formGroup input {
   padding: 0.75rem;
-  border: 2px solid #e9ecef;
-  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  border-radius: 0;
+  background: #ffffff;
+  color: #000000;
   font-size: 1rem;
   transition: border-color 0.2s ease;
 }
 
+.formGroup input::placeholder {
+  color: #aaaaaa;
+}
+
 .formGroup input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #999999;
+  box-shadow: none;
 }
 
 .formGroup input.error {
@@ -100,16 +114,19 @@
 
 /* Payment Section */
 .paymentSection {
-  background: white;
+  background: #ffffff;
   padding: 0;
   border: none;
 }
 
 .paymentSection h2 {
-  color: #333;
+  color: #888888;
   margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 11px;
   font-weight: 600;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 5px;
+  text-transform: uppercase;
 }
 
 .items {
@@ -121,16 +138,16 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 0;
-  background: white;
+  background: #ffffff;
   margin-bottom: 0.5rem;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .itemImage {
   width: 60px;
   height: 60px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 0;
 }
 
 .itemDetails {
@@ -140,26 +157,26 @@
 .itemDetails h3 {
   margin: 0 0 0.25rem 0;
   font-size: 1rem;
-  color: #333;
+  color: #000000;
 }
 
 .itemDetails p {
   margin: 0;
-  color: #666;
+  color: #888888;
   font-size: 0.9rem;
 }
 
 .itemPrice {
   font-weight: 600;
-  color: #333;
+  color: #000000;
   font-size: 1.1rem;
 }
 
 .pricing {
-  background: white;
+  background: #f5f5f5;
   padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border-radius: 0;
+  border: 1px solid #e8e8e8;
   margin-bottom: 1.5rem;
 }
 
@@ -168,7 +185,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #f1f3f4;
+  border-bottom: 1px solid #e8e8e8;
+  color: #888888;
 }
 
 .priceRow:last-child {
@@ -178,29 +196,32 @@
 .priceRow.total {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #333;
-  border-top: 2px solid #e9ecef;
+  color: #000000;
+  border-top: 1px solid #e0e0e0;
   margin-top: 0.5rem;
   padding-top: 1rem;
 }
 
 .shippingDetails {
-  color: #666;
+  color: #888888;
   font-size: 0.9rem;
 }
 
 /* Payment Form */
 .paymentForm {
-  background: white;
+  background: #f5f5f5;
   padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border-radius: 0;
+  border: 1px solid #e8e8e8;
 }
 
 .paymentForm h2 {
   margin-bottom: 1rem;
-  color: #333;
-  font-size: 1.3rem;
+  color: #888888;
+  font-size: 11px;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 5px;
+  text-transform: uppercase;
 }
 
 .paymentForm form {
@@ -218,78 +239,85 @@
 .backButton {
   flex: 1;
   padding: 0.75rem 1rem;
-  background: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  background: #f5f5f5;
+  color: #666666;
+  border: 1px solid #e0e0e0;
+  border-radius: 0;
+  font-size: 0.85rem;
   font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .backButton:hover:not(:disabled) {
-  background: #5a6268;
+  background: #e0e0e0;
+  color: #000000;
+  border-color: #999999;
 }
 
 .payButton {
   flex: 2;
   padding: 0.75rem 1rem;
-  background: #28a745;
-  color: white;
+  background: #000000;
+  color: #ffffff;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 0;
+  font-size: 0.85rem;
   font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  font-family: 'Optimus Princeps', serif;
 }
 
 .payButton:hover:not(:disabled) {
-  background: #218838;
+  background: #333333;
 }
 
 .backButton:disabled,
 .payButton:disabled {
-  opacity: 0.6;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
 /* Error Display */
 .error {
-  background: #f8d7da;
-  color: #721c24;
+  background: rgba(220, 53, 69, 0.1);
+  color: #cc0000;
   padding: 0.75rem;
-  border-radius: 6px;
-  border: 1px solid #f5c6cb;
+  border-radius: 0;
+  border: 1px solid rgba(220, 53, 69, 0.3);
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
 
 /* Success Section */
 .successSection {
-  background: white;
+  background: #f5f5f5;
   padding: 2rem;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border-radius: 0;
+  border: 1px solid #e8e8e8;
   text-align: center;
 }
 
 .successMessage h2 {
-  color: #28a745;
+  color: #000000;
   margin-bottom: 1rem;
 }
 
 .successMessage p {
-  color: #666;
+  color: #888888;
   margin-bottom: 1.5rem;
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #28a745;
+  border: 2px solid #e0e0e0;
+  border-top: 2px solid #000000;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto;
@@ -304,35 +332,39 @@
 .emptyCart {
   text-align: center;
   padding: 3rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
 }
 
 .emptyCart h1 {
-  color: #333;
+  color: #000000;
   margin-bottom: 1rem;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 3px;
 }
 
 .emptyCart p {
-  color: #666;
+  color: #888888;
   margin-bottom: 2rem;
 }
 
 .continueShopping {
   padding: 0.75rem 2rem;
-  background: #667eea;
-  color: white;
+  background: #000000;
+  color: #ffffff;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 500;
+  border-radius: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  font-family: 'Optimus Princeps', serif;
 }
 
 .continueShopping:hover {
-  background: #5a6fd8;
+  background: #333333;
 }
 
 /* Responsive Design */
@@ -340,35 +372,35 @@
   .container {
     padding: 1rem;
   }
-  
+
   .formRow {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .formGroup {
     width: 100%;
   }
-  
+
   .formGroup.apartment {
     max-width: none;
     width: 100%;
   }
-  
+
   .formGroup input {
     width: 100%;
     box-sizing: border-box;
   }
-  
+
   .actions {
     flex-direction: column;
   }
-  
+
   .item {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .itemImage {
     width: 80px;
     height: 80px;
@@ -379,7 +411,7 @@
   .container {
     padding: 0.5rem;
   }
-  
+
   .checkoutCard h1 {
     font-size: 1.5rem;
   }

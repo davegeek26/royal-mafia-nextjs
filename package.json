@@ -16,6 +16,7 @@
     "@stripe/react-stripe-js": "^3.9.2",
     "@stripe/stripe-js": "^7.9.0",
     "@supabase/supabase-js": "^2.56.1",
+    "framer-motion": "^12.35.2",
     "next": "15.4.10",
     "react": "19.1.0",
     "react-dom": "19.1.0",

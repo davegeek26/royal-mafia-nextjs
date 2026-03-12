@@ -9,14 +9,19 @@ import styles from './CartSidebar.module.css';
 
 function CartSidebar({ isOpen, onClose }) {
   const router = useRouter();
-  const { cart, loading, addToCart, subtotal, totalItems, refreshCart } = useCart();
+  const { cart, loading, addToCart, subtotal, totalItems, refreshCart, lastFetchedRef } = useCart();
 
-  // Refresh cart when sidebar opens
+  // Only refresh from Supabase if cart data is stale (>60 seconds old).
+  // CartContext already has up-to-date data after every mutation, so
+  // repeated sidebar opens within a minute cost zero extra Supabase calls.
   useEffect(() => {
     if (isOpen) {
-      refreshCart();
+      const age = lastFetchedRef.current ? Date.now() - lastFetchedRef.current : Infinity;
+      if (age > 60_000) {
+        refreshCart();
+      }
     }
-  }, [isOpen, refreshCart]);
+  }, [isOpen, refreshCart, lastFetchedRef]);
 
   // Format currency using modern Intl API
   const formatCurrency = (amount) => {

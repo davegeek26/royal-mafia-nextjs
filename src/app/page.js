@@ -1,90 +1,82 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Product from '@/components/Product';
-import ProductWalkway from '@/components/ProductWalkway';
+import { motion } from 'framer-motion';
+import ProductCard1 from '@/components/ProductCard1';
+import ProductCard2 from '@/components/ProductCard2';
+import ProductCard3 from '@/components/ProductCard3';
+import Marquee from '@/components/Marquee';
 import { products } from '@/data/products';
 
+const exclusiveItems = [
+  'ROYAL MAFIA', 'EXCLUSIVE', 'ROYAL MAFIA', 'EXCLUSIVE',
+  'ROYAL MAFIA', 'EXCLUSIVE', 'ROYAL MAFIA', 'EXCLUSIVE',
+];
+
 export default function Home() {
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-
-  const slides = [
-    {
-      image: '/homePageImgLeft.JPG',
-      title: 'Classic Black Tee',
-      link: '/products/1'
-    },
-    {
-      image: '/homePageImgRight.JPG',
-      title: 'Royal Mafia Collection',
-      link: '/collection'
-    }
-  ];
-
-  const showSlide = (index) => {
-    setCurrentSlideIndex(index);
-  };
-
-  const nextSlide = () => {
-    setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlideIndex((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
-    }, 5000); // Auto-advance every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [slides.length]);
-
   return (
     <div className="home">
+      {/* Hero Section */}
       <div className="homeVideoAndIntroText">
-        <video 
-          className="homeVideo"
-          src="/HomePageVid.MOV"
-          loading= "lazy"
-          autoPlay
-          loop
-          muted
-          playsInline
+        <Image
+          src="/homePageImgLeft.JPG"
+          alt="Royal Mafia"
+          fill
+          className="homeHeroImage"
+          priority
+          sizes="100vw"
         />
+        <div className="heroOverlay" />
         <div className="homeIntroText">
-          <Image 
-            src="/RMHomeLogo.png" 
-            alt="Royal Mafia" 
-            className="homeLogo"
-            width={900}
-            height={300}
-            priority
-          />
-          <Link href="/collection" className="homeIntroShopNowButton">
-            SHOP NOW
-          </Link>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: 'easeOut' }}
+          >
+            <Image
+              src="/RMHomeLogo.png"
+              alt="Royal Mafia"
+              className="homeLogo"
+              width={900}
+              height={300}
+              priority
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: 'easeOut', delay: 0.35 }}
+          >
+            <Link href="/collection" className="homeIntroShopNowButton">
+              SHOP NOW
+            </Link>
+          </motion.div>
         </div>
       </div>
 
+      {/* New Arrivals Grid */}
+      <p className="sectionLabel">New Arrivals</p>
       <div className="homeRow">
-        {products.map((product) => (
-          <div key={product.id}>
-            <Link 
-              href={`/products/${product.id}`}
-              style={{ textDecoration: 'none', color: 'inherit'}}
-            >
-              <Product 
-                title={product.title}
-                price={product.price}
-                image={product.image}
-                backImage={product.backImage}
-              />
-            </Link>
-          </div>
+        {products.map((product, index) => (
+          <motion.div
+            key={product.id}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: index * 0.1 }}
+          >
+            <ProductCard1
+              id={product.id}
+              image={product.image}
+              backImage={product.backImage}
+              title={product.title}
+              price={product.price}
+              sizes={product.sizes}
+              route={`/products/${product.id}`}
+            />
+          </motion.div>
         ))}
       </div>
 
@@ -94,68 +86,33 @@ export default function Home() {
         </Link>
       </div>
 
-      {/* Product Walkway Section */}
-      <ProductWalkway />
+      {/* Marquee Strip */}
+      <Marquee />
 
-      <div className="homeImagesSection">
-        <div className="homeImageLeft">
-          <div className="slideshowContainer">
-            <div className="slideshow">
-              {slides.map((slide, index) => (
-                <div
-                  key={index}
-                  className={`slide ${index === currentSlideIndex ? 'active' : ''}`}
-                >
-                  <Image
-                    src={slide.image}
-                    alt={slide.title}
-                    width={1920}
-                    height={1080}
-                    priority={index === 0}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
-                  />
-                  <div className="slideOverlay">
-                    <h3>{slide.title}</h3>
-                    <Link href={slide.link} className="slideShopLink">Shop Now</Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="slideshowDots">
-              {slides.map((_, index) => (
-                <span
-                  key={index}
-                  className={`dot ${index === currentSlideIndex ? 'active' : ''}`}
-                  onClick={() => showSlide(index)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="homeImageRight">
-          <div className="homeProductsRight">
-            {products.slice(0, 2).map((product) => (
-              <div key={product.id} className="homeProductRightItem">
-                <Link 
-                  href={`/products/${product.id}`}
-                  style={{ textDecoration: 'none', color: 'inherit'}}
-                >
-                  <Product 
-                    title={product.title}
-                    price={product.price}
-                    image={product.image}
-                    backImage={product.backImage}
-                  />
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* ProductCard2 — image left, info right */}
+      <ProductCard2
+        id={products[0].id}
+        image={products[0].image}
+        backImage={products[0].backImage}
+        title={products[0].title}
+        price={products[0].price}
+        sizes={products[0].sizes}
+        route={`/products/${products[0].id}`}
+      />
+
+      {/* Exclusive Marquee */}
+      <Marquee items={exclusiveItems} />
+
+      {/* ProductCard3 — image right, info left */}
+      <ProductCard3
+        id={products[1].id}
+        image={products[1].image}
+        backImage={products[1].backImage}
+        title={products[1].title}
+        price={products[1].price}
+        sizes={products[1].sizes}
+        route={`/products/${products[1].id}`}
+      />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+
 import "./globals.css";
 import { StateProvider } from "@/context/StateProvider";
 import { CartProvider } from "@/context/CartContext";

@@ -3,23 +3,28 @@
   margin: 0 auto;
   padding: 20px;
   min-height: 100vh;
+  background: #ffffff;
 }
 
 .container h1 {
-  color: #2c3e50;
+  color: #000000;
   margin-bottom: 32px;
   text-align: center;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-size: 1.4rem;
 }
 
 .loading {
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: #888888;
 }
 
 .spinner {
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #2c3e50;
+  border: 2px solid #e0e0e0;
+  border-top: 2px solid #000000;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -35,34 +40,41 @@
 .noOrders {
   text-align: center;
   padding: 60px 20px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
+  border-radius: 0;
 }
 
 .noOrders h2 {
-  color: #2c3e50;
+  color: #000000;
   margin-bottom: 16px;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 3px;
 }
 
 .noOrders p {
-  color: #666;
+  color: #888888;
   margin-bottom: 32px;
 }
 
 .shopButton {
-  background: #2c3e50;
-  color: white;
+  background: #000000;
+  color: #ffffff;
   padding: 12px 32px;
-  border-radius: 8px;
+  border-radius: 0;
   text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Optimus Princeps', serif;
+  transition: background 0.2s ease;
+  display: inline-block;
 }
 
 .shopButton:hover {
-  background: #34495e;
-  transform: translateY(-2px);
+  background: #333333;
+  transform: none;
 }
 
 .ordersList {
@@ -72,10 +84,11 @@
 }
 
 .order {
-  background: white;
-  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 0;
   padding: 32px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
 }
 
 .orderHeader {
@@ -84,32 +97,37 @@
   align-items: flex-start;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .orderInfo h3 {
-  color: #2c3e50;
+  color: #000000;
   margin-bottom: 8px;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 2px;
 }
 
 .orderDate, .orderTotal, .paymentId {
   margin: 4px 0;
-  color: #666;
+  color: #888888;
   font-size: 0.9rem;
 }
 
 .orderTotal {
   font-weight: 600;
-  color: #2c3e50;
+  color: #333333;
 }
 
 .statusBadge {
-  background: #f39c12;
-  color: white;
+  background: #f5f5f5;
+  color: #666666;
   padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
+  border-radius: 0;
+  border: 1px solid #e0e0e0;
+  font-size: 0.75rem;
   font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .orderCustomer {
@@ -117,19 +135,23 @@
 }
 
 .orderCustomer h4 {
-  color: #2c3e50;
+  color: #888888;
   margin-bottom: 12px;
+  font-size: 11px;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
 .customerDetails {
-  background: #f8f9fa;
+  background: #f5f5f5;
   padding: 16px;
-  border-radius: 8px;
+  border: 1px solid #e8e8e8;
 }
 
 .customerDetails p {
   margin: 6px 0;
-  color: #2c3e50;
+  color: #333333;
   font-size: 0.9rem;
 }
 
@@ -138,8 +160,12 @@
 }
 
 .orderItems h4 {
-  color: #2c3e50;
+  color: #888888;
   margin-bottom: 16px;
+  font-size: 11px;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
 .itemsList {
@@ -152,51 +178,59 @@
   display: flex;
   align-items: center;
   padding: 12px;
-  background: #f8f9fa;
-  border-radius: 8px;
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
+  border-radius: 0;
 }
 
 .itemImage {
   width: 60px;
   height: 60px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 0;
   margin-right: 16px;
 }
 
 .itemDetails h5 {
   margin: 0 0 4px 0;
-  color: #2c3e50;
+  color: #000000;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 1px;
 }
 
 .itemPrice, .itemQuantity {
   margin: 2px 0;
-  color: #666;
+  color: #888888;
   font-size: 0.9rem;
 }
 
 .itemPrice {
   font-weight: 600;
+  color: #333333;
 }
 
 .orderSummary h4 {
-  color: #2c3e50;
+  color: #888888;
   margin-bottom: 16px;
+  font-size: 11px;
+  font-family: 'Optimus Princeps', serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
 .summaryRow {
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
-  color: #666;
+  color: #888888;
 }
 
 .summaryRow.total {
-  border-top: 1px solid #eee;
+  border-top: 1px solid #e8e8e8;
   padding-top: 12px;
   margin-top: 12px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #000000;
   font-size: 1.1rem;
 }
 
@@ -204,21 +238,21 @@
   .container {
     padding: 10px;
   }
-  
+
   .order {
     padding: 20px;
   }
-  
+
   .orderHeader {
     flex-direction: column;
     gap: 16px;
   }
-  
+
   .orderItem {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .itemImage {
     margin-right: 0;
     margin-bottom: 8px;

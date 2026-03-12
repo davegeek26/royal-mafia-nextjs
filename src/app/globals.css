@@ -3,7 +3,8 @@
 }
 
 body {
-  background-color: white;
+  background-color: #ffffff;
+  color: #000000;
   margin: 0;
   padding-top: 50px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -68,12 +69,12 @@ a:hover {
     overflow: hidden;
 }
 
-.homeVideo {
-    position: absolute;
+.homeHeroImage {
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    aspect-ratio: 16/9;
     object-fit: cover;
     z-index: 1;
 }
@@ -153,14 +154,27 @@ a:hover {
     color: black;
 }
 
+.sectionLabel {
+    text-align: center;
+    font-family: 'Optimus Princeps', serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #888888;
+    padding: 50px 0 16px 0;
+    margin: 0;
+}
+
 .homeRow {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
-    padding: 40px 1%;
+    padding: 20px 1% 40px;
     width: 98%;
     margin: 0px auto;
+    background: #ffffff;
 }
 
 /* Mobile: 2-column grid layout */
@@ -195,6 +209,7 @@ a:hover {
     align-items: center;
     padding: 10px 20px;
     margin: -40px 0 5px 0;
+    background: #ffffff;
 }
 
 .shopNowButton {
@@ -231,7 +246,7 @@ a:hover {
 /* View All Link - Exact same style as video Shop Now button */
 .viewAllLink {
     display: inline-block;
-    color: #000;
+    color: #000000;
     text-decoration: none;
     font-family: 'Optimus Princeps', serif;
     font-weight: 900;
@@ -278,7 +293,7 @@ a:hover {
     height: 2px;
     bottom: -4px;
     left: 0;
-    background-color: #000;
+    background-color: #000000;
     transition: width 0.3s ease;
 }
 
@@ -286,12 +301,25 @@ a:hover {
     width: 100%;
 }
 
+/* Hero overlay for dark cinematic feel */
+.heroOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
 /* Home Images Section */
 .homeImagesSection {
     display: flex;
     width: 100%;
     gap: 2px;
-    margin-top: 20px;
+    margin-top: 0;
+    background: #ffffff;
 }
 
 .homeImageLeft {
@@ -401,6 +429,10 @@ a:hover {
     .homeIntroText p {
         font-size: 1rem;
         margin-bottom: 25px;
+    }
+    .homeHeroImage {
+        width: 100%;
+        aspect-ratio: 9/16;
     }
     .homeIntroShopNowButton {
         padding: 15px 30px;

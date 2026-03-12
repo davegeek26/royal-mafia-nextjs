@@ -73,6 +73,8 @@ export async function POST(request) {
     const currentQuantity = existingItem?.quantity || 0;
     const newQuantity = currentQuantity + quantityDelta;
     
+    let delta;
+
     // If new quantity is 0 or less, remove the item
     if (newQuantity <= 0) {
       if (existingItem) {
@@ -81,7 +83,7 @@ export async function POST(request) {
           .delete()
           .eq('session_id', sessionId)
           .eq('product_id', productId);
-        
+
         if (deleteError) {
           console.error('Error deleting cart item:', deleteError);
           return NextResponse.json(
@@ -90,6 +92,7 @@ export async function POST(request) {
           );
         }
       }
+      delta = { action: 'remove', productId };
     } else {
       // Upsert the cart item
       const { error: upsertError } = await supabase
@@ -101,7 +104,7 @@ export async function POST(request) {
         }, {
           onConflict: 'session_id,product_id',
         });
-      
+
       if (upsertError) {
         console.error('Error upserting cart item:', upsertError);
         return NextResponse.json(
@@ -109,45 +112,30 @@ export async function POST(request) {
           { status: 500 }
         );
       }
-    }
-    
-    // Return updated cart (same shape as GET /api/cart)
-    const { data: cartItems, error: cartError } = await supabase
-      .from('cart_items')
-      .select('*')
-      .eq('session_id', sessionId);
-    
-    if (cartError) {
-      console.error('Error fetching updated cart:', cartError);
-      return NextResponse.json(
-        { error: 'Cart updated but failed to fetch updated cart' },
-        { status: 500 }
-      );
-    }
-    
-    // Attach product information
-    const cartWithProducts = (cartItems || []).map(item => {
-      const product = getProductById(item.product_id);
-      if (!product) return null;
-      
-      return {
-        productId: item.product_id,
-        quantity: item.quantity,
-        name: product.name,
-        priceCents: product.priceCents,
-        imagePath: product.imagePath,
+
+      // Build the updated item from local product data — no extra DB round-trip needed
+      const product = getProductById(productId);
+      delta = {
+        action: 'upsert',
+        item: {
+          productId,
+          quantity: newQuantity,
+          name: product.name,
+          priceCents: product.priceCents,
+          imagePath: product.imagePath,
+        },
       };
-    }).filter(item => item !== null);
-    
-    // Create response and set cookie if needed
-    const response = NextResponse.json(cartWithProducts);
-    
+    }
+
+    // Return delta so CartContext can update state locally (no full re-fetch)
+    const response = NextResponse.json(delta);
+
     // If we created a new session ID, set the cookie
     if (!await getSessionId()) {
       const cookieOptions = getSessionCookieOptions();
       response.cookies.set('session_id', sessionId, cookieOptions);
     }
-    
+
     return response;
   } catch (error) {
     console.error('Error in POST /api/cart/add:', error);

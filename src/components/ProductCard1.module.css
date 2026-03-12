@@ -1,0 +1,151 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  background: #ffffff;
+  border: none;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-3px);
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mainImage,
+.backImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease;
+}
+
+.mainImage {
+  opacity: 1;
+}
+
+.backImage {
+  opacity: 0;
+}
+
+.imageWrapper:hover .mainImage {
+  opacity: 0;
+}
+
+.imageWrapper:hover .backImage {
+  opacity: 1;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .backImage {
+    display: none !important;
+  }
+
+  .mainImage {
+    position: static;
+    opacity: 1 !important;
+  }
+
+  .imageWrapper {
+    position: static;
+  }
+}
+
+.info {
+  padding: 14px 16px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.title {
+  font-family: 'Optimus Princeps', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+  text-align: center;
+}
+
+.priceRow {
+  min-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.price {
+  font-family: 'Optimus Princeps', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.shopNow {
+  font-family: 'Optimus Princeps', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+}
+
+.shopNow::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #000000;
+  transition: width 0.3s ease;
+}
+
+.card:hover .shopNow::after {
+  width: 100%;
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+  .card {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .imageWrapper {
+    height: auto;
+    aspect-ratio: 1;
+    position: static;
+  }
+
+  .mainImage {
+    position: static !important;
+    opacity: 1 !important;
+  }
+
+  .backImage {
+    display: none !important;
+  }
+
+  .imageWrapper:hover .mainImage {
+    opacity: 1 !important;
+  }
+}
