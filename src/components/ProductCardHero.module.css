@@ -150,9 +150,11 @@
   font-family: 'Optimus Princeps', serif;
 }
 
-.sizeBtn:hover {
-  border-color: #000000;
-  color: #000000;
+@media (hover: hover) {
+  .sizeBtn:hover {
+    border-color: #000000;
+    color: #000000;
+  }
 }
 
 .sizeBtnSelected {

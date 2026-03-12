@@ -2,8 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import Product from '@/components/Product';
+import ProductCard1 from '@/components/ProductCard1';
 import { products } from '@/data/products';
 import styles from './collection.module.css';
 
@@ -66,18 +65,16 @@ function CollectionContent() {
           <div className={styles.no_products}>No products available</div>
         ) : (
           filteredProducts.map((product) => (
-            <Link 
+            <ProductCard1
               key={product.id}
-              href={`/products/${product.id}`}
-              style={{ textDecoration: 'none', color: 'inherit'}}
-            >
-              <Product 
-                title={product.title}
-                price={product.price}
-                image={product.image}
-                backImage={product.backImage}
-              />
-            </Link>
+              id={product.id}
+              title={product.title}
+              price={product.price}
+              image={product.image}
+              backImage={product.backImage}
+              sizes={product.sizes}
+              route={`/products/${product.id}`}
+            />
           ))
         )}
       </div>
